@@ -63,6 +63,7 @@ impl<'a> serde::Deserialize<'a> for Cell {
     }
 }
 
+#[must_use]
 pub const fn capacity(width: usize, height: usize) -> usize {
     if width == 0 || height == 0 {
         0
@@ -72,9 +73,10 @@ pub const fn capacity(width: usize, height: usize) -> usize {
 }
 
 pub fn clear(cells: &mut [Cell]) {
-    cells.fill(Cell::EMPTY)
+    cells.fill(Cell::EMPTY);
 }
 
+#[allow(clippy::transmute_ptr_to_ptr)]
 fn primitive_slice(cells: &mut [Cell]) -> &mut [Primitive] {
     unsafe { mem::transmute(cells) }
 }
@@ -170,7 +172,9 @@ impl<'a> Iterator for Vertices<'a> {
 impl<'a> FusedIterator for Vertices<'a> {}
 
 fn next_index_pair(maybe_prev_index: &mut Primitive, cell: Primitive) -> Option<[Primitive; 2]> {
-    if cell != EMPTY {
+    if cell == EMPTY {
+        None
+    } else {
         let index = cell >> 1;
         if *maybe_prev_index == EMPTY {
             *maybe_prev_index = index;
@@ -180,8 +184,6 @@ fn next_index_pair(maybe_prev_index: &mut Primitive, cell: Primitive) -> Option<
         } else {
             Some([mem::take(maybe_prev_index) - 1, index - 1])
         }
-    } else {
-        None
     }
 }
 
@@ -262,6 +264,7 @@ impl<'a> Iterator for VerticalIndices<'a> {
 
 impl<'a> FusedIterator for VerticalIndices<'a> {}
 
+#[must_use]
 pub const fn get(cells: &[Cell], width: usize) -> (Vertices, HorizontalIndices, VerticalIndices) {
     let vertices = Vertices {
         cells,

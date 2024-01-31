@@ -13,10 +13,12 @@ use ::core::iter;
 pub struct Algorithm(Vec<Cell>);
 
 impl Algorithm {
+    #[must_use]
     pub const fn new() -> Self {
         Self(Vec::new())
     }
 
+    #[must_use]
     pub fn with_capacity(width: usize, height: usize) -> Self {
         Self(Vec::with_capacity(core::capacity(width, height)))
     }

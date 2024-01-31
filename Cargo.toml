@@ -1,7 +1,12 @@
 [package]
-name    = "marching-pixels"
-version = "0.1.0"
-edition = "2021"
+name       = "marching-pixels"
+version    = "0.1.1"
+authors    = ["Artur Helmanau <m30bit@gmail.com>"]
+categories = ["algorithms", "no-std::no-alloc", "games"]
+keywords   = ["text"]
+license    = "MIT OR Apache-2.0"
+edition    = "2021"
+readme     = "README.md"
 
 [features]
 default = ["alloc"]

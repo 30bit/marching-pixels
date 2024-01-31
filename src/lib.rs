@@ -1,5 +1,6 @@
 #![no_std]
 #![cfg_attr(doc, feature(doc_cfg))]
+#![allow(clippy::cast_possible_truncation)]
 
 #[cfg(feature = "alloc")]
 extern crate alloc;
